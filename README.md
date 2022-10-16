@@ -45,7 +45,7 @@ _____________________________________
 * The offsets to me ages to get right. Also, ignore the cropping, dunno why that happened
 
 ## Reworked title screen:
-![](https://i.postimg.cc/T2bp6YRH/Title-screen.gif)
+![Title screen](https://user-images.githubusercontent.com/95544056/196054804-de8004ff-f1ac-4217-94bf-51c443e1aa5b.gif)
 
 ## Attractive animated dialogue boxes:
 
