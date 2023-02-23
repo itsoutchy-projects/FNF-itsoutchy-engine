@@ -1,0 +1,1 @@
+Zooms out and stops moving the camera.
