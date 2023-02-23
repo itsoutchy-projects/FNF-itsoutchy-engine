@@ -82,16 +82,16 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
 	public static var ratingStuff:Array<Dynamic> = [
-		['wtf', 0.2], //From 0% to 19%
-		['Shit', 0.4], //From 20% to 39%
-		['Bad', 0.5], //From 40% to 49%
-		['Bruh', 0.6], //From 50% to 59%
-		['Meh', 0.69], //From 60% to 68%
-		['Noice', 0.7], //69%
-		['cool', 0.8], //From 70% to 79%
-		['Great', 0.9], //From 80% to 89%
-		['Sick!', 1], //From 90% to 99%
-		['WTF HOW?!!!1!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+		['H', 0.2], //From 0% to 19%
+		['G', 0.4], //From 20% to 39%
+		['F', 0.5], //From 40% to 49%
+		['E', 0.6], //From 50% to 59%
+		['D', 0.69], //From 60% to 68%
+		['C', 0.7], //69%
+		['B', 0.8], //From 70% to 79%
+		['A', 0.9], //From 80% to 89%
+		['S', 1], //From 90% to 99%
+		['SS', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 
 	//event variables
@@ -270,6 +270,8 @@ class PlayState extends MusicBeatState
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
 
+	var songTxt:FlxText;
+
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
 	public static var seenCutscene:Bool = false;
@@ -328,6 +330,8 @@ class PlayState extends MusicBeatState
 	{
 		//trace('Playback Rate: ' + playbackRate);
 		Paths.clearStoredMemory();
+
+		
 
 		// for lua
 		instance = this;
@@ -1034,10 +1038,10 @@ class PlayState extends MusicBeatState
 		timeTxt.visible = showTime;
 		if(ClientPrefs.downScroll) timeTxt.y = FlxG.height - 44;
 
-		if(ClientPrefs.timeBarType == 'Song Name')
-		{
-			timeTxt.text = SONG.song;
-		}
+		// if(ClientPrefs.timeBarType == 'Song Name')
+		// {
+		// 	timeTxt.text = SONG.song; We will show both time and song name
+		// }
 		updateTime = showTime;
 
 		timeBarBG = new AttachedSprite('timeBar');
@@ -1049,9 +1053,10 @@ class PlayState extends MusicBeatState
 		timeBarBG.color = FlxColor.BLACK;
 		timeBarBG.xAdd = -4;
 		timeBarBG.yAdd = -4;
+		timeBarBG.visible = false;
 		add(timeBarBG);
 
-		timeBar = new FlxBar(timeBarBG.x + 4, timeBarBG.y + 4, LEFT_TO_RIGHT, Std.int(timeBarBG.width - 8), Std.int(timeBarBG.height - 8), this,
+		timeBar = new FlxBar(15, timeBarBG.y + 4, LEFT_TO_RIGHT, (FlxG.width - 30), Std.int(timeBarBG.height - 8), this,
 			'songPercent', 0, 1);
 		timeBar.scrollFactor.set();
 		timeBar.createFilledBar(0xFF000000, 0xFFFFFFFF);
@@ -1122,6 +1127,13 @@ class PlayState extends MusicBeatState
 		add(healthBarBG);
 		if(ClientPrefs.downScroll) healthBarBG.y = 0.11 * FlxG.height;
 
+		songTxt = new FlxText(0, healthBarBG.y, 1000, songName, 32);
+		songTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		songTxt.scrollFactor.set();
+		songTxt.alpha = 0;
+		songTxt.borderSize = 2;
+		add(songTxt);
+
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
 			'health', 0, 2);
 		healthBar.scrollFactor.set();
@@ -1145,7 +1157,7 @@ class PlayState extends MusicBeatState
 		reloadHealthBarColors();
 
 		scoreTxt = new FlxText(0, healthBarBG.y + 36, FlxG.width, "", 20);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2], 255), CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.hideHud;
@@ -1172,6 +1184,7 @@ class PlayState extends MusicBeatState
 		botplayTxt.cameras = [camHUD];
 		timeBar.cameras = [camHUD];
 		timeBarBG.cameras = [camHUD];
+		songTxt.cameras = [camHUD];
 		timeTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
 
@@ -1221,16 +1234,29 @@ class PlayState extends MusicBeatState
 				if(FileSystem.exists(luaToLoad))
 				{
 					luaArray.push(new FunkinLua(luaToLoad));
+				} else {
+					luaToLoad = Paths.getPreloadPath('events/' + event + '.lua');
+					if(FileSystem.exists(luaToLoad))
+					{
+						luaArray.push(new FunkinLua(luaToLoad));
+					}
 				}
 			}
 			#elseif sys
 			var luaToLoad:String = Paths.getPreloadPath('custom_events/' + event + '.lua');
+			//var luaToLoad:String = 'assets/events' + event + '.lua';
 			if(OpenFlAssets.exists(luaToLoad))
 			{
 				luaArray.push(new FunkinLua(luaToLoad));
+			} else {
+				luaToLoad = 'assets/events' + event + '.lua';
+				if(OpenFlAssets.exists(luaToLoad)) {
+					luaArray.push(new FunkinLua(luaToLoad));
+				}
+				
 			}
 			#end
-		}
+		}	
 		#end
 		noteTypeMap.clear();
 		noteTypeMap = null;
@@ -1633,6 +1659,7 @@ class PlayState extends MusicBeatState
 			endSong();
 		else
 			startCountdown();
+		FlxG.mouse.visible = true;
 	}
 
 	var dialogueCount:Int = 0;
@@ -2299,9 +2326,10 @@ class PlayState extends MusicBeatState
 	{
 		scoreTxt.text = 'Score: ' + songScore
 		+ ' | Misses: ' + songMisses
-		+ ' | Rating: ' + ratingName
-		+ (ratingName != '?' ? ' (${Highscore.floorDecimal(ratingPercent * 100, 2)}%) - $ratingFC' : '')
-		+ ' | Health: ' + FlxMath.roundDecimal(health, 2) * 100 / 2 + "%";
+		+ ' | Accuracy: ' + Highscore.floorDecimal(ratingPercent * 100, 2)
+		+ ' | Rank: ' + ratingName
+		+ ' | Health: ' + FlxMath.roundDecimal(health, 2) * 100 / 2 + "%"
+		+ ' | ' + ratingFC;
 
 		if(ClientPrefs.scoreZoom && !miss && !cpuControlled)
 		{
@@ -2875,6 +2903,12 @@ class PlayState extends MusicBeatState
 			iconP1.swapOldIcon();
 		}*/
 		callOnLuas('onUpdate', [elapsed]);
+
+		if (FlxG.keys.justPressed.SHIFT == true) {
+			boyfriend.playAnim('hey', true);
+			boyfriend.specialAnim = true;
+			FlxG.sound.play(Paths.sound('hey'));
+		}
 
 		switch (curStage)
 		{
@@ -3458,6 +3492,15 @@ class PlayState extends MusicBeatState
 							dadbattleSmokes.visible = false;
 						}});
 				}
+
+			// case 'Black screen':
+			// 	var whiteSquare = new FlxSprite();
+			// 	if (value1 == '1') {
+			// 		whiteSquare.makeGraphic(1280, 720, FlxColor.BLACK);
+			// 		add(whiteSquare);
+			// 	} else {
+			// 		remove(whiteSquare);
+			// 	}
 
 			case 'Hey!':
 				var value:Int = 2;

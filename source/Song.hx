@@ -15,6 +15,8 @@ using StringTools;
 typedef SwagSong =
 {
 	var song:String;
+	//var artist:String;
+
 	var notes:Array<SwagSection>;
 	var events:Array<Dynamic>;
 	var bpm:Float;
@@ -34,6 +36,8 @@ typedef SwagSong =
 class Song
 {
 	public var song:String;
+	//public var artist:String;
+
 	public var notes:Array<SwagSection>;
 	public var events:Array<Dynamic>;
 	public var bpm:Float;
@@ -53,6 +57,10 @@ class Song
 			songJson.gfVersion = songJson.player3;
 			songJson.player3 = null;
 		}
+
+		// if (songJson.artist == null) {
+		// 	songJson.artist = 'undefined';
+		// }
 
 		if(songJson.events == null)
 		{
