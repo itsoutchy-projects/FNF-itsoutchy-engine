@@ -1,0 +1,51 @@
+{
+	"song": {
+		"events": [
+			[
+				0,
+				[
+					[
+						"BlackScreen",
+						"1",
+						""
+					],
+					[
+						"Camera Follow Pos",
+						"600",
+						"500"
+					]
+				]
+			],
+			[
+				10300,
+				[
+					[
+						"BlackScreen",
+						"0",
+						""
+					]
+				]
+			],
+			[
+				44900,
+				[
+					[
+						"Change Character",
+						"Dad",
+						"pico"
+					]
+				]
+			],
+			[
+				64000,
+				[
+					[
+						"BlackScreen",
+						"1",
+						""
+					]
+				]
+			]
+		]
+	}
+}
