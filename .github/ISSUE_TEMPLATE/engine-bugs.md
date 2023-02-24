@@ -1,8 +1,8 @@
 ---
 name: Engine Bugs
-about: Create a report to help us improve
+about: Bugs with the engine
 title: ''
-labels: ''
+labels: bug, good first issue, help wanted, invalid
 assignees: itsoutchy-projects
 
 ---
@@ -24,7 +24,7 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
- - OS: [e.g. iOS]
+ - OS: [e.g. Windows]
  - Browser [e.g. chrome, safari]
  - Version [e.g. 22]
 
@@ -35,4 +35,4 @@ If applicable, add screenshots to help explain your problem.
  - Version [e.g. 22]
 
 **Additional context**
-Add any other context about the problem here.
+Add any other context about the problem here. Notify me about what you've edited.
