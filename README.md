@@ -2,6 +2,9 @@
 Modified version of [Psych Engine](https://github.com/ShadowMario/FNF-PsychEngine), was also used on vs itsoutchy mod.
 Btw I'm not exactly the best music maker, so uhh... sorry about that.
 
+> [!CAUTION]
+> This engine is cancelled and has been for a very long time, due to this it is based on an old version of Psych Engine and is unmaintained. So do whatever you're trying to do with caution.
+
 ## Installation:
 You must have [the most up-to-date version of Haxe](https://haxe.org/download/), seriously, stop using 4.1.5, it misses some stuff.
 
