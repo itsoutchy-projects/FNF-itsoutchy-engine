@@ -1,5 +1,5 @@
 # Friday Night Funkin' - itsoutchy Engine
-Modified version of [Psych Engine](https://github.com/ShadowMario/FNF-PsychEngine), was also used on vs itsoutchy mod.
+Modified version of [Psych Engine](https://github.com/ShadowMario/FNF-PsychEngine), ~~was also used on vs itsoutchy mod~~.
 Btw I'm not exactly the best music maker, so uhh... sorry about that.
 
 > [!CAUTION]
